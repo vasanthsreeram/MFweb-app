@@ -31,7 +31,7 @@ const App = () => {
             <Switch>
                 <Route path="/" component={Intro} exact />
                 <Route path="/Task" component={Task} exact />
-                <Route path="/Questionnaires" component={Questionnaires} exact />
+                {/* <Route path="/Questionnaires" component={Questionnaires} exact /> */}
                 <Route path="/End" component={End} exact />
             </Switch>
         </BrowserRouter>

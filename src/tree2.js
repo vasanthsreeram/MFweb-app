@@ -5,6 +5,7 @@ import Image from 'react-image-resizer';
 class Tree2 extends React.Component{
 
   render(){
+    // console.log("rendering tree :",this.props)
     return (
 
         <Image

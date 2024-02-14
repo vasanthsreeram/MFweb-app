@@ -7,6 +7,7 @@ class TreeTraining extends React.Component{
 
   render(){
 
+    // console.log("rendering tree :",this.props)
     return (
 
         <Image

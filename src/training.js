@@ -7,6 +7,9 @@ import { handleResponse } from './helpers'; // methode qui importe le json
 import Image from 'react-image-resizer';
 import './style/training.css';
 
+
+
+
 class Training extends React.Component{
 
   constructor(props) {
@@ -15,10 +18,11 @@ class Training extends React.Component{
     var random_col=[];
 
     /* fill in random colors .*/
+    console.log("num_training", this.props)
     for (var i=0; i<=this.props.num_training; i++) {
       var tmp = Math.round(Math.random() * 3)+1;
       do {
-          tmp = Math.round(Math.random() * 3)+1;;
+          tmp = Math.round(Math.random() * 3)+1;
       } while (random_col[i-1]===tmp); // make sure it changes color every time
       random_col[i] = tmp;
       };
@@ -120,10 +124,14 @@ class Training extends React.Component{
     }
 
   renderApple(val, col){
+    console.log("renderApple", "val", val, "col", col)
+    val==undefined ? val=3 : val=val;
     return <AppleTraining value={val} col={col} training_apple_col={this.props.training_apple_col}/>;
   }
 
   renderAppleSug(val, col){
+    console.log("renderAppleSug", "val", val, "col", col)
+    val==undefined ? val=3 : val=val;
     return <AppleSug value={val} col={col} training_apple_col={this.props.training_apple_col}/>;
   }
 
@@ -131,9 +139,11 @@ class Training extends React.Component{
 
       let all_boxes = [];
       var trial_ind = this.state.trial - 1;
-      var apples = this.state.training_info.InitialSamplesSize[trial_ind];
-
+      var apples = this.state.training_info.InitialSamplesSize;
+      console.log("this.state",this.state)
+      console.log("disp_boxes", "apples", apples, "col", col)
       for (var i=0; i<apples.length; i++) {
+        console.log("disp_boxes", "apples[i]", apples[i], "col", col)
         all_boxes[i]=this.renderApple(apples[i],col)
       }
 
@@ -144,7 +154,7 @@ class Training extends React.Component{
 
       let all_sugg=[];
       var trial_ind = this.state.trial - 1;
-      var apples_suggested = this.state.training_info.ChoicesSize[trial_ind];
+      var apples_suggested = this.state.training_info.ChoicesSize;
 
       for (var i=0; i<2; i++) {
         all_sugg[i]=this.renderAppleSug(apples_suggested[i],col)
@@ -167,7 +177,7 @@ class Training extends React.Component{
     if (this.state.compute_fb===1) {
 
       let trial_ind = this.state.trial - 1;
-      let ChoicesCorrect = this.state.training_info.ChoicesCorrect[trial_ind];
+      let ChoicesCorrect = this.state.training_info.ChoicesCorrect;
       let sum_passed = this.state.sum_passed;
       let correct_ans = this.state.correct_ans;
       let chosen = this.state.chosen;
@@ -298,8 +308,9 @@ class Training extends React.Component{
         }
 
     else {
-
+      console.log("this state", this.state)
       var trial = this.state.trial;
+
       trial++
 
       setTimeout(

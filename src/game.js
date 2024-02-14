@@ -9,16 +9,18 @@ import { API_URL } from './config';
 import { handleResponse } from './helpers'; // imports json
 import { Button } from 'react-bootstrap';
 
+var months = 3; //modify
+
 
 class Game extends React.Component{
 
   constructor(props) {
     super(props);
 
-    var trial_per_block = 100;
+    var trial_per_block = 3; // modify this to change the number of trials per block
 
     /* fill in random colors .*/
-    var BlockNb = 4;
+    var BlockNb = months;
     var random_col=[];
     for (var j=0; j<BlockNb; j++){
       random_col[j]=[];
@@ -26,6 +28,8 @@ class Game extends React.Component{
         random_col[j][i] = Math.round(Math.random() * 7)+1
       };
     };
+
+    // console.log("random_col made", random_col)
 
     /* data to be saved .*/
     var chosen_tree = Array(trial_per_block).fill().map(() => Array(6).fill(0));
@@ -63,7 +67,7 @@ class Game extends React.Component{
   }
 
   fetchBlock(user_no_,block_no_){
-
+    console.log("this state", this.state)
     var currentDate   = new Date();
     var BlockStartTime    = currentDate.toTimeString();
 
@@ -72,7 +76,7 @@ class Game extends React.Component{
     fetch(`${API_URL}/task/`+task_no+'/'+block_no_)
     .then(handleResponse)
     .then((data) => {
-
+        // console.log("fetchBlock Tree posistion", "data", data.TreePositions)
         const block_info = {
           BlockNo             : data.BlockNo,
           Horizon             : data.Horizon,
@@ -149,14 +153,18 @@ class Game extends React.Component{
        },
        body: JSON.stringify(behaviour)
      })
+
+    //  console.log("sendBlock", "behaviour", JSON.stringify(behaviour)) 
+    console.log("this state", this.state)
+
   }
 
   render() {
 
       var trialinblock_index = this.state.TrialInBlockNo-1;
-
+      // console.log(this.state.BlockNo, this.state.BlockNb, this.state.BlockNo>this.state.BlockNb)
       if (this.state.BlockNo>this.state.BlockNb) {
-        console.log("finished", "blockNo :", this.state.BlockNo)
+        // console.log("finished", "blockNo :", this.state.BlockNo)
         document.addEventListener("keyup", this._handleKeyDownSpace);
         return <Block block_start_bg={this.props.user_info.block_start_bg} block_finish_bg={this.props.user_info.block_finish_bg} block_i={this.state.BlockNo} BlockNb={this.state.BlockNb}/>
         }
@@ -183,7 +191,9 @@ class Game extends React.Component{
                 var col = this.state.tree_col[current_block-1][trialinblock_index];
                 var hor = this.state.block_info.Horizon[trialinblock_index];
                 var disp;
-
+                // console.log("col", col)
+                // console.log("hor", hor)
+                // console.log("this.props", this.props)
                   switch(col) {
                       case 1:
                         disp = this.props.user_info.image_bg_1; break;
@@ -203,6 +213,7 @@ class Game extends React.Component{
                         disp = this.props.user_info.image_bg_8; break;
                       default:
                     }
+                    // console.log("disp", disp)
 
                     return (
                       <div className="place-middle">
@@ -215,6 +226,7 @@ class Game extends React.Component{
                         </div>
                       </div>
                     );
+
 
             case 1:
                 return (this.disp_juice(trialinblock_index));
@@ -355,10 +367,12 @@ class Game extends React.Component{
         chosen_apple_size: chosen_apple_size,
         SampleNo: SampleNo,
       });
+    // console.log("this state", this.state)
+
+
     }
 
-  disp_current_apples(trialinblock_index) {
-
+    disp_current_apples(trialinblock_index) {
       var InitialSampleNb = this.state.block_info.InitialSampleNb[trialinblock_index];
       var InitialSamples_Tree = this.state.block_info.InitialSamples_Tree[trialinblock_index];
       var InitialSamples_Size = this.state.block_info.InitialSamples_Size[trialinblock_index];
@@ -367,23 +381,64 @@ class Game extends React.Component{
       var SampleNo = this.state.SampleNo;
       var chosen_tree = this.state.chosen_tree;
       var chosen_apple_size = this.state.chosen_apple_size;
+  
 
-      let all_boxes=[];
-
-      for (var i=0; i<InitialSampleNb; i++) {
-        all_boxes.push(this.renderApple(InitialSamples_Size[i],TreePositions[InitialSamples_Tree[i]-1]))
+      let all_boxes = [];
+      let pos = [];
+      let pos_c = [];
+    
+      // Populate pos array with positions for initial samples
+      for (var i = 0; i < InitialSampleNb; i++) {
+        pos.push(TreePositions[InitialSamples_Tree[i] - 1]);
       }
 
-      for (i=0; i<SampleNo; i++) {
-        all_boxes.push(this.renderApple(chosen_apple_size[trialinblock_index][i],TreePositions[chosen_tree[trialinblock_index][i]-1]))
-      }
+      for (i = 0; i < SampleNo; i++) {
+        // Ensure the user selection is directly translated into pos_c without adjustments
+        let chosenPosition = chosen_tree[trialinblock_index][i] - 1;
 
+        console.log("Chosen position:", chosenPosition);
+        console.log("this.state", this.state);
+        // Directly push the tree position (1, 2, or 3) as selected by the user
+        pos_c.push(TreePositions[chosenPosition]);
+      }
+    
+      // Populate pos array with positions for chosen samples
+      // for (i = 0; i < SampleNo; i++) {
+      //   pos_c.push(TreePositions[chosen_tree[trialinblock_index][i] - 1]);
+      // }
+    
+      // Adjust pos array to replace 0s with missing numbers
+      console.log("Original pos:", pos);
+      console.log("Original pos_c:", pos_c);
+      pos = pos.map((p, index) => {
+        if (p === 0 && index < 3) { // Apply adjustment only for the first three elements
+          const missingNumbers = [1, 2, 3].filter(num => !pos.slice(0, 3).includes(num));
+          return missingNumbers.length > 0 ? missingNumbers[0] : p; // Replace with the first missing number
+        }
+        return p;
+      });
+
+ 
+    
+      console.log("Adjusted pos:", pos);
+      console.log("Adjusted pos_c:", pos_c);
+    
+      // Use the adjusted pos array for rendering
+      for (i = 0; i < InitialSampleNb; i++) {
+        all_boxes.push(this.renderApple(InitialSamples_Size[i], pos[i]));
+      }
+      for (i = 0; i < SampleNo; i++) {
+        all_boxes.push(this.renderApple(chosen_apple_size[trialinblock_index][i], pos_c[i]));
+      }
       for (i=InitialSampleNb+SampleNo; i<InitialSampleNb+Horizon; i++) {
+        // console.log("i", i , "its not printing it")
         all_boxes.push(this.renderApple('',''))
       }
-
-    return all_boxes;
-  }
+    
+      return all_boxes;
+    }
+    
+    
 
   compute_score(trialinblock_index) {
 
@@ -397,12 +452,11 @@ class Game extends React.Component{
       }
 
       var mean_score = Math.round(sum/Horizon);
-
+      // console.log("mean_score", mean_score)
       return mean_score;
     }
 
   renderApple(val, tree_i){
-
           var trialinblock_index = this.state.TrialInBlockNo-1;
           var current_block_index = this.state.block_info.BlockNo[trialinblock_index]-1;
           var col=this.state.tree_col[current_block_index][trialinblock_index];
@@ -520,7 +574,7 @@ class Game extends React.Component{
         var SampleNo = this.state.SampleNo;
 
         reaction_times[trialinblock_index][SampleNo] = Math.round(performance.now());
-
+          // console.log(this.state.BlockNo, this.state.BlockNb, this.state.BlockNo>this.state.BlockNb)
           if (this.state.BlockNo>this.state.BlockNb) {
             this.props.nextTransition(1);
             document.removeEventListener("keyup", this._handleKeyDownSpace)

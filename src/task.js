@@ -11,6 +11,11 @@ import './style/task.css';
 import Image from 'react-image-resizer';
 import './style/intro.css';
 
+// Variables to change 
+// modify
+var num_training = 3; // should be 10
+var percentage_to_pass_questions = 1; // percentage to pass the training and questions
+var percentage_to_pass_training = 0.8;
 
 class Task extends React.Component{
 
@@ -25,14 +30,14 @@ class Task extends React.Component{
     this.state = {
       UserNo:[], //default
       user_info: user_info,
-      num_training:10, // should be 10
+      num_training:num_training, // should be 10
       loading: 1,
       slide: 1, // should be 1
       transition: 0, // starts at 0; 7 to access directly questionnaires
       mounted: 0,
       fetched: 0,
-      percentage_to_pass_questions: 1, // percentage to pass the training and questions
-      percentage_to_pass_training: 0.8,
+      percentage_to_pass_questions: percentage_to_pass_questions, // percentage to pass the training and questions
+      percentage_to_pass_training: percentage_to_pass_training,
       InstructionsStartTime: InstructionsStartTime,
 
     };
@@ -131,36 +136,36 @@ class Task extends React.Component{
               );
 
           case 1:
-            //console.log("task: transition 1", "slide", this.state.slide)
+            console.log("task: transition 1", "slide", this.state.slide)
             return <Instructions loading_bg={this.state.user_info.loading_bg} slide={this.state.slide} instruc_={this.state.user_info.instruc_bg}/>
 
           case 2:
             if (this.state.fetched===0){
               this.fetchUserInfo();
             }
-            //console.log("task: transition 2 - questions")
+            console.log("task: transition 2 - questions")
             return <Questions user_info={this.state.user_info} loading_bg={this.state.user_info.loading_bg} questions_bg={this.state.user_info.questions_bg} training_no={this.state.user_info.training_no} task_no={this.state.user_info.task_no} prolific_id={this.state.user_info.prolific_id} StartTime={this.state.user_info.startTime} UserNo={this.state.UserNo} questions_nb={5} nextTransition={this.nextTransition} InstructionsStartTime={this.state.InstructionsStartTime}/>
 
           case 3:
-            //console.log("task: transition 3 - after questions instructions", "slide", this.state.slide)
+            console.log("task: transition 3 - after questions instructions", "slide", this.state.slide)
             return <Instructions slide={this.state.slide} instruc_={this.state.user_info.instruc_bg}/>
 
           case 4:
-            //console.log("task: transition 4 - training")
+            console.log("task: transition 4 - training")
             return <Training user_info={this.state.user_info} images_fb={this.state.user_info.images_fb} training_apple_col={this.state.user_info.training_apple_col} loading_bg={this.state.user_info.loading_bg} training_no={this.state.user_info.training_no} task_no={this.state.user_info.task_no} training_bg={this.state.user_info.training_bg} prolific_id={this.state.user_info.prolific_id} StartTime={this.state.user_info.startTime} UserNo={this.state.UserNo} num_training={this.state.num_training} nextTransition={this.nextTransition}/>
 
           case 5:
-            //console.log("task: transition 5 - instructions")
+            console.log("task: transition 5 - instructions")
             return <Instructions slide={this.state.slide} instruc_={this.state.user_info.instruc_bg}/>
 
           case 6:
-            //console.log("task: transition 6 - start game")
+            console.log("task: transition 6 - start game",this.state.user_info, "UserNo", this.state.UserNo, "nextTransition", this.nextTransition )
             return <Game user_info={this.state.user_info} UserNo={this.state.UserNo} nextTransition={this.nextTransition}/>
 
           case 7:
-            //console.log("task: transition 7")
+            console.log("task: transition 7")
             this.props.history.push({
-              pathname: `/Questionnaires`,
+              pathname: `/End`,
               state: {user_info: this.state.user_info, UserNo: this.state.UserNo}
             })
             return null

@@ -6,9 +6,9 @@ class End extends Component {
 
   redirectToEnd(){
 
-   alert("You will now be redirected to the validation page.")
+  //  alert("You will now be redirected to the validation page.")
 
-   window.location = 'https://app.prolific.co/submissions/complete?cc=6668AF37'
+  //  window.location = 'https://app.prolific.co/submissions/complete?cc=6668AF37'
   }
 
   render() {
