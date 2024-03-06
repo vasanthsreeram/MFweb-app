@@ -26,7 +26,7 @@ const RefreshRoute = ({ component: Component, isDataAvailable, ...rest }) => (
 );
 
 const App = () => {
-  RefreshRoute
+
     return (
         <BrowserRouter>
             <Switch>

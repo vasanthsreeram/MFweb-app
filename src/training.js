@@ -125,13 +125,17 @@ class Training extends React.Component{
 
   renderApple(val, col){
     console.log("renderApple", "val", val, "col", col)
-    val===undefined ? val=3:val;
+    if(val===undefined){
+      val=3
+    };
     return <AppleTraining value={val} col={col} training_apple_col={this.props.training_apple_col}/>;
   }
 
   renderAppleSug(val, col){
     console.log("renderAppleSug", "val", val, "col", col)
-    val===undefined ? val=3 : val;
+    if(val===undefined){
+      val=3
+    };
     return <AppleSug value={val} col={col} training_apple_col={this.props.training_apple_col}/>;
   }
 
