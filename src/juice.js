@@ -89,7 +89,13 @@ class Juice extends React.Component{
               Juice from the apples YOU picked <br />
               filled: <big> <b> 100% </b> </big> of the small glass
             </p>
-          </div>)
+          </div>);
+            default:
+              return (
+                <div className="juice_text">
+                  <p>Unexpected value.</p>
+                </div>
+              );
       }
     }
 
@@ -175,7 +181,13 @@ class Juice extends React.Component{
               Juice from the apples YOU picked <br />
               filled: <big> <b> 100% </b> </big> of the large glass
             </p>
-          </div>)
+          </div>);
+            default:
+              return (
+                <div className="juice_text">
+                  <p>Unexpected value.</p>
+                </div>
+              );
       }
     }
 

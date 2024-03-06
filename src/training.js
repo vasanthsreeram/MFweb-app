@@ -125,20 +125,20 @@ class Training extends React.Component{
 
   renderApple(val, col){
     console.log("renderApple", "val", val, "col", col)
-    val===undefined ? val=3 : val=val;
+    val===undefined ? val=3:val;
     return <AppleTraining value={val} col={col} training_apple_col={this.props.training_apple_col}/>;
   }
 
   renderAppleSug(val, col){
     console.log("renderAppleSug", "val", val, "col", col)
-    val===undefined ? val=3 : val=val;
+    val===undefined ? val=3 : val;
     return <AppleSug value={val} col={col} training_apple_col={this.props.training_apple_col}/>;
   }
 
   disp_boxes(col) {
 
       let all_boxes = [];
-      var trial_ind = this.state.trial - 1;
+      // var trial_ind = this.state.trial - 1;
       var apples = this.state.training_info.InitialSamplesSize;
       console.log("this.state",this.state)
       console.log("disp_boxes", "apples", apples, "col", col)
@@ -153,7 +153,7 @@ class Training extends React.Component{
   disp_suggestions(col) {
 
       let all_sugg=[];
-      var trial_ind = this.state.trial - 1;
+      // var trial_ind = this.state.trial - 1;
       var apples_suggested = this.state.training_info.ChoicesSize;
 
       for (var i=0; i<2; i++) {

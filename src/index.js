@@ -5,7 +5,7 @@ import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 import './style/index.css';
 import Task from './task';
 import Intro from './intro';
-import Questionnaires from './questionnaires';
+// import Questionnaires from './questionnaires';
 import End from './end';
 
 const RefreshRoute = ({ component: Component, isDataAvailable, ...rest }) => (
@@ -26,6 +26,7 @@ const RefreshRoute = ({ component: Component, isDataAvailable, ...rest }) => (
 );
 
 const App = () => {
+  RefreshRoute
     return (
         <BrowserRouter>
             <Switch>
