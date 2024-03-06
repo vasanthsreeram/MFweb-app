@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter, Switch, Route, } from 'react-router-dom';
 import './style/index.css';
 import Task from './task';
 import Intro from './intro';
